@@ -18,6 +18,7 @@ unsigned long age, date, time;
 int Year;
 byte Month, Day, Hour, Minute, Second;
 
+long int start; // timer for letting the gps-object 'feed' more than once
 
 TinyGPS gps;
 // rx = 6 (yellow), tx = 7 (white)
@@ -89,8 +90,7 @@ void loop() {
 
   } else { 
     if (millis()-previousMillis >= interval*2) {
-      lcd.clear(); lcd.print("No fix.."); 
-      Serial.print("No fix.."); Serial.println(gps.location.age());
+      lcd.clear(); lcd.print("Please Wait.."); 
       previousMillis = millis();
     }
   } 
