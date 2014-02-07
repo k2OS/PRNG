@@ -29,7 +29,7 @@ float defaultInterval = 0.01;
 
 
 long previousMillis;
-int interval = 500; // refresh interval for the display
+int interval = 1000; // refresh interval for the display
 
 void setup() {
   //Serial.begin(9600);
@@ -45,7 +45,7 @@ void loop() {
 
     if (gps.location.isValid()) {
       // I only want to update the display once per interval
-      int speed = (int)gps.speed.kmph();
+      int speed = (int)gps.speed.kmph(); // a sort of rounding
       if (millis()-previousMillis >= interval) {
         lcd.setCursor(0,0);
         lcd.print("                ");
@@ -56,6 +56,7 @@ void loop() {
         lcd.print("                ");
         lcd.setCursor(0,1);
         lcd.println(gps.location.lng(), 6);
+
         lcd.setCursor(10,0); lcd.print("     ");
         lcd.setCursor(10,0); 
         if (speed > 9) { 
