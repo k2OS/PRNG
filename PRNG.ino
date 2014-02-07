@@ -60,6 +60,10 @@ void loop() {
       // I only want to update the display once per interval
       int speed = (int)gps.f_speed_kmph(); // a sort of rounding
       if (millis()-previousMillis >= interval) {
+      lcd.clear();
+      lcd.print(flon);
+      lcd.setCursor(0,1); lcd.print(fon,6);
+ /*
         lcd.setCursor(0,0);
         lcd.print("                ");
         lcd.setCursor(0,0);
@@ -69,14 +73,15 @@ void loop() {
         lcd.print("                ");
         lcd.setCursor(0,1);
         lcd.println(flon, 6);
+*/
 
-        lcd.setCursor(12,0); lcd.print("    ");
-        lcd.setCursor(12,0); 
+/*
+lcd.setCursor(13,0); 
         if (speed > 9) { 
           lcd.print("  "); 
         }  else if (speed > 99) { lcd.print(" "); } 
         lcd.print(speed);
-
+*/
         previousMillis = millis();
       }
         /*
