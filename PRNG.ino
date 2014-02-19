@@ -26,14 +26,18 @@ TinyGPS gps;
 SoftwareSerial nss(7,6);
 
 // Coordinate to start from 
-static const float COORDINATE_LAT = 55;
-static const float COORDINATE_LON = 12;
+// 55.90477, 12.49889
+static const float COORDINATE_LAT = 55.90477;
+static const float COORDINATE_LON = 12.49889;
 
 time_t codetime; // save now() in this - also used to seed the PRNG
 
 //  tællere til nedtælling - vi starter på 30 minutter (1800 sekunder)
-// formel: currentInterval = defaultInterval*distance(m)*hastighed(km/t) 
-// skal trækkes fra countdown-timer hvert sekund
+// formel: currentIntercal = defaultInterval*(distance(m)+1)*(hastighed(km/t)+1) 
+// skal trækkes fra countdown-timer (remainCount) hvert sekund
+float startCount = 30;
+float remainCount = startCount;
+
 float defaultInterval = 0.01;
 
 
@@ -41,7 +45,8 @@ long previousMillis;
 int interval = 1000; // refresh interval for the display
 
 void setup() {
-  //Serial.begin(9600);
+  Serial.begin(9600);
+  Serial.println("please wait..");
   nss.begin(9600); // initiate SoftwareSerial, which we use to talk to the GPS
 
   lcd.begin(16,2);               // initialize the lcd 
@@ -52,6 +57,7 @@ void loop() {
     // stuff the gps-object with data
     feedgps();
     gps.f_get_position(&flat, &flon, &age);
+    gps.crack_datetime(&Year, &Month, &Day, &Hour, &Minute, &Second, NULL, &age); // this will probably fail at first..54
 
      // this might not be needed as we need to talk to the GPS 'all the time' even after first fix
     //updatedatetime(); // runs for 1000ms to make sure we have date-time correct
@@ -60,27 +66,34 @@ void loop() {
       // I only want to update the display once per interval
       int speed = (int)gps.f_speed_kmph(); // a sort of rounding
       if (millis()-previousMillis >= interval) {
-      lcd.clear();
-      lcd.print(flat,6);
-      lcd.setCursor(0,1); 
-      lcd.print(flon,6);
-
-
-      lcd.setCursor(13,0); 
-      if (speed > 9) { 
-          lcd.print("  "); 
-      }  else if (speed > 99) { lcd.print(" "); } 
-      lcd.print(speed);
-
-      previousMillis = millis();
+        lcd.setCursor(0,0); 
+        lcd.print("   ");
+        lcd.setCursor(0,0);
+        if (speed < 100) { 
+            lcd.print(" "); 
+        }
+        if (speed < 10) { 
+            lcd.print("  "); 
+        }
+        lcd.print(speed);
+        lcd.setCursor(0,1);
+        lcd.print(Year); lcd.print("-");
+        if (Month < 10) { lcd.print("0"); lcd.print(Month); }
+        lcd.print("-");
+        if (Day < 10) { lcd.print("0"); lcd.print(Day); }
+        lcd.print(" ");
+        if (Hour < 10) { lcd.print("0"); lcd.print(Hour); }
+        lcd.print(":");
+        if (Minute < 10) { lcd.print("0"); lcd.print(Minute); }
+        previousMillis = millis();
     }
-        /*
-        // do stuff with speed and distance here to calculate countdown for code-retrieval
-      randomSeed(i); // "now"
-      randNumber = random(999,9999);
-      Serial.println(randNumber);
-      codes[index] = randNumber;
-      lcd.print("Code: "); lcd.print(codes[0]);  
+    /*
+     // do stuff with speed and distance here to calculate countdown for code-retrieval
+    randomSeed(i); // "now"
+    randNumber = random(999,9999);
+    Serial.println(randNumber);
+    codes[index] = randNumber;
+    lcd.print("Code: "); lcd.print(codes[0]);  
 */
 
   } else { 
