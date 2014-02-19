@@ -74,17 +74,9 @@ void loop() {
 
       previousMillis = millis();
     }
-        /*
-        // do stuff with speed and distance here to calculate countdown for code-retrieval
-      randomSeed(i); // "now"
-      randNumber = random(999,9999);
-      Serial.println(randNumber);
-      codes[index] = randNumber;
-      lcd.print("Code: "); lcd.print(codes[0]);  
-*/
 
   } else { 
-    if (millis()-previousMillis >= interval*2) {
+    if (millis()-previousMillis >= interval) {
       lcd.clear(); lcd.print("Please Wait.."); 
       previousMillis = millis();
     }
