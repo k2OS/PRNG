@@ -77,7 +77,8 @@ void loop() {
         }
         lcd.print(speed);
         lcd.setCursor(0,1);
-        lcd.print(Year); lcd.print("-");
+        lcd.print(Year); 
+        lcd.print("-");
         if (Month < 10) { lcd.print("0"); lcd.print(Month); }
         lcd.print("-");
         if (Day < 10) { lcd.print("0"); lcd.print(Day); }
