@@ -87,6 +87,7 @@ void loop() {
         if (Minute < 10) { lcd.print("0"); lcd.print(Minute); }
         previousMillis = millis();
     }
+<<<<<<< HEAD
     /*
      // do stuff with speed and distance here to calculate countdown for code-retrieval
     randomSeed(i); // "now"
@@ -95,9 +96,11 @@ void loop() {
     codes[index] = randNumber;
     lcd.print("Code: "); lcd.print(codes[0]);  
 */
+=======
+>>>>>>> f2e144a8436691fb7d0fad10ffdeb6646f3f1443
 
   } else { 
-    if (millis()-previousMillis >= interval*2) {
+    if (millis()-previousMillis >= interval) {
       lcd.clear(); lcd.print("Please Wait.."); 
       previousMillis = millis();
     }
