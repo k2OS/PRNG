@@ -76,16 +76,19 @@ void loop() {
             lcd.print(" "); 
         }
         lcd.print(speed);
+
+        lcd.print(" / "); lcd.print(gps.hdop());
+
         lcd.setCursor(0,1);
         lcd.print(Year); 
         lcd.print("-");
-        if (Month < 10) { lcd.print("0"); lcd.print(Month); }
+        if (Month < 10) { lcd.print("0"); } lcd.print(Month);
         lcd.print("-");
-        if (Day < 10) { lcd.print("0"); lcd.print(Day); }
+        if (Day < 10) { lcd.print("0");} lcd.print(Day);
         lcd.print(" ");
-        if (Hour < 10) { lcd.print("0"); lcd.print(Hour); }
+        if (Hour < 10) { lcd.print("0"); } lcd.print(Hour);
         lcd.print(":");
-        if (Minute < 10) { lcd.print("0"); lcd.print(Minute); }
+        if (Minute < 10) { lcd.print("0"); } lcd.print(Minute);
         previousMillis = millis();
     }
 
