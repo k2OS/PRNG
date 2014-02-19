@@ -67,13 +67,13 @@ void loop() {
       int speed = (int)gps.f_speed_kmph(); // a sort of rounding
       if (millis()-previousMillis >= interval) {
         lcd.setCursor(0,0); 
-        lcd.print("   ");
+        lcd.print("                ");
         lcd.setCursor(0,0);
         if (speed < 100) { 
             lcd.print(" "); 
         }
         if (speed < 10) { 
-            lcd.print("  "); 
+            lcd.print(" "); 
         }
         lcd.print(speed);
         lcd.setCursor(0,1);
