@@ -20,6 +20,9 @@ byte Month, Day, Hour, Minute, Second;
 
 long int start; // timer for letting the gps-object 'feed' more than once
 
+// for the rotating part of the display
+int displayState = 0;
+
 TinyGPS gps;
 // rx = 6 (yellow), tx = 7 (white)
 // vcc = black, gnd = green
@@ -66,6 +69,7 @@ void loop() {
       // I only want to update the display once per interval
       int speed = (int)gps.f_speed_kmph(); // a sort of rounding
       if (millis()-previousMillis >= interval) {
+        if (displayState == 2) { displayState = 0; } 
         lcd.setCursor(0,0); 
         lcd.print("                ");
         lcd.setCursor(0,0);
@@ -77,7 +81,17 @@ void loop() {
         }
         lcd.print(speed);
 
-        lcd.print(" / "); lcd.print(gps.hdop());
+        // here we have a rotating 'field' that toggle between hdop and age
+        lcd.print(" / "); 
+        
+        switch(displayState) {
+          case 0:
+            lcd.print(gps.hdop());
+          break;
+          case 1:
+            lcd.print(age);         
+          break;         
+        }
 
         lcd.setCursor(0,1);
         lcd.print(Year); 
@@ -90,7 +104,8 @@ void loop() {
         lcd.print(":");
         if (Minute < 10) { lcd.print("0"); } lcd.print(Minute);
         previousMillis = millis();
-    }
+        displayState++;
+    } // eo 'display'
 
   } else { 
     if (millis()-previousMillis >= interval) {
