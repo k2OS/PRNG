@@ -86,10 +86,10 @@ void loop() {
         
         switch(displayState) {
           case 0:
-            lcd.print(gps.hdop());
+            lcd.print(" hdop: ");lcd.print(gps.hdop());
           break;
           case 1:
-            lcd.print(age);         
+            lcd.print(" age:");lcd.print(age);         
           break;         
         }
 
