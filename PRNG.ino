@@ -4,6 +4,7 @@
 // #include <EEPROM.h>
 #include <Time.h>
 #include <Wire.h>
+#include <VirtualWire.h>
 
 LiquidCrystal_I2C lcd(0x20,4,5,6,0,1,2,3,7,NEGATIVE); 
 
@@ -11,6 +12,10 @@ LiquidCrystal_I2C lcd(0x20,4,5,6,0,1,2,3,7,NEGATIVE);
 #include <MemoryFree.h>
 #include <pgmStrToRAM.h>
 */
+
+// 433-stuff
+int txpowerPin = 4; // we turn the 433-module on by setting this PIN HIGH
+int RF_RX_PIN = 2; // transmit PIN
 
 /* GPS-related variables */
 float flat, flon;
@@ -48,6 +53,8 @@ long previousMillis;
 int interval = 1000; // refresh interval for the display
 
 void setup() {
+  pinMode(txpowerPin,OUTPUT); // setting the power-pin for the 433 .. low to start with
+  digitalWrite(txpowerPin,LOW); 
   Serial.begin(9600);
   Serial.println("please wait..");
   nss.begin(9600); // initiate SoftwareSerial, which we use to talk to the GPS
@@ -57,6 +64,15 @@ void setup() {
 }
 
 void loop() {
+  // Pseudocode for later
+  // set and check states for the loop
+  // Different phases: startup (wait for signal), Aquiring code (getting the user to move), code aquired (send the user back), back to the box (send code to box)
+  // I should use the game-state/tasknr as I did in TheBox - but this time there is no saved states, so tasknr should be sufficient
+  
+  // I should allow for the GPS-signal to get lost after the initial tasknr, so the countdown doesn't get reset
+  // to be safe, end() the gps-module before talking to 433
+  // end of pseudocode for now
+  
     // stuff the gps-object with data
     feedgps();
     gps.f_get_position(&flat, &flon, &age);
