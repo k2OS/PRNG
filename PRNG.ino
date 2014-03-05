@@ -14,8 +14,8 @@ LiquidCrystal_I2C lcd(0x20,4,5,6,0,1,2,3,7,NEGATIVE);
 */
 
 // 433-stuff
-int txpowerPin = 4; // we turn the 433-module on by setting this PIN HIGH
-int RF_TX_PIN = 2; // transmit PIN
+int txpowerPin = 10; // we turn the 433-module on by setting this PIN HIGH
+int RF_TX_PIN = 9; // transmit PIN
 
 /* GPS-related variables */
 float flat, flon;
@@ -54,7 +54,7 @@ int interval = 1000; // refresh interval for the display
 
 void setup() {
   pinMode(txpowerPin,OUTPUT); // setting the power-pin for the 433 .. low to start with
-  digitalWrite(txpowerPin,LOW); 
+  digitalWrite(txpowerPin,HIGH); // .. meaning, HIGH while we debug 
 
   // configure virtualwire
   vw_set_tx_pin(RF_TX_PIN); // Setup transmit pin
@@ -126,12 +126,19 @@ void loop() {
         if (Minute < 10) { lcd.print("0"); } lcd.print(Minute);
         previousMillis = millis();
         displayState++;
+        const char *msg = "updating display";
+        vw_send((uint8_t *)msg, strlen(msg)); 
+
+
     } // eo 'display'
 
   } else { 
     if (millis()-previousMillis >= interval) {
       lcd.clear(); lcd.print("Please Wait.."); 
       previousMillis = millis();
+      const char *msg = "Waiting for signal";
+      vw_send((uint8_t *)msg, strlen(msg));  
+
     }
   } 
 }
