@@ -2,3 +2,5 @@
 ====
 
 PsudoRandomNumberGenerator for This Is Not A Wherigo
+
+<img src="PRNG.jpg">
