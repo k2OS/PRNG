@@ -15,7 +15,7 @@ LiquidCrystal_I2C lcd(0x20,4,5,6,0,1,2,3,7,NEGATIVE);
 
 // 433-stuff
 int txpowerPin = 4; // we turn the 433-module on by setting this PIN HIGH
-int RF_RX_PIN = 2; // transmit PIN
+int RF_TX_PIN = 2; // transmit PIN
 
 /* GPS-related variables */
 float flat, flon;
@@ -55,6 +55,11 @@ int interval = 1000; // refresh interval for the display
 void setup() {
   pinMode(txpowerPin,OUTPUT); // setting the power-pin for the 433 .. low to start with
   digitalWrite(txpowerPin,LOW); 
+
+  // configure virtualwire
+  vw_set_tx_pin(RF_TX_PIN); // Setup transmit pin
+  vw_setup(2000); // Transmission speed in bits per second.
+  
   Serial.begin(9600);
   Serial.println("please wait..");
   nss.begin(9600); // initiate SoftwareSerial, which we use to talk to the GPS
@@ -148,4 +153,10 @@ void updatedatetime() {
          while (millis() - start < 1000) {
             feedgps();
          }
+}
+
+// function for sending the code to the motherCache - I am in doubt if the syntax is correct, but time will tell
+void sendCode(char *m) {
+//  const char *msg = "hello";
+  vw_send((uint8_t *)m, strlen(m));  // Send 'hello' every 400ms.
 }
