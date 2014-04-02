@@ -66,6 +66,7 @@ void setup() {
 
   lcd.begin(16,2);               // initialize the lcd 
   lcd.setBacklight(HIGH); // LOW  = slukket backlight, HIGH = .. guess
+  sendCode("4321");
 }
 
 void loop() {
@@ -127,7 +128,8 @@ void loop() {
         previousMillis = millis();
         displayState++;
         const char *msg = "updating display";
-        vw_send((uint8_t *)msg, strlen(msg)); 
+        sendCode("4321");
+//        vw_send((uint8_t *)msg, strlen(msg)); 
 
 
     } // eo 'display'
@@ -137,8 +139,8 @@ void loop() {
       lcd.clear(); lcd.print("Please Wait.."); 
       previousMillis = millis();
       const char *msg = "Waiting for signal";
-      vw_send((uint8_t *)msg, strlen(msg));  
-
+      //vw_send((uint8_t *)msg, strlen(msg));  
+      sendCode("AX4321");
     }
   } 
 }
