@@ -173,3 +173,4 @@ void updatedatetime() {
 void sendCode(char *m) {
 //  const char *msg = "hello";
   vw_send((uint8_t *)m, strlen(m));
+}
