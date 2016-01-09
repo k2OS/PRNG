@@ -1,3 +1,10 @@
+/*
+ * This is the code generator part of This Is Not A Wherigo
+ * The Hardware is a LabiDuino ("self"-made clone). In Arduino 1..0.3 the boardtype is "nano with 328". In 1.6.x it's "nano" and "processor" is Atmega328.
+ * 
+ * 
+ * 
+ */
 #include <LiquidCrystal_I2C.h>
 #include <TinyGPS.h>
 #include <SoftwareSerial.h>
@@ -140,8 +147,8 @@ void loop() {
 
   } else { 
     if (millis()-previousMillis >= interval) {
-//      lcd.clear(); lcd.print("Please Wait.."); 
-      lcd.clear(); lcd.print("Updating safe.."); 
+      lcd.clear(); lcd.print("Please Wait.."); 
+//      lcd.clear(); lcd.print("Updating safe.."); 
       previousMillis = millis();
       //const char *msg = "Waiting for signal";
       // for demo, we send out our code every second
