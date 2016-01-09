@@ -114,16 +114,25 @@ void loop() {
         lcd.print(speed);
 
         // here we have a rotating 'field' that toggle between hdop and age
+        // I tink I can get away with writing a<age> h<hdop> as debug and get rid of the blinking.. 
         lcd.print(" / "); 
-        
-        switch(displayState) {
+        lcd.print("a"); 
+        if (age < 100) lcd.print(" "); // we only print this if age < 1000 anyway
+        lcd.print(age); 
+        lcd.print(" h");
+        if (gps.hdop() < 1000) lcd.print(" ");  // no idea what hdop can swing out to, so we give room for 4 digits
+        lcd.print(gps.hdop());
+
+        // below commented out to get rid of the blinking
+/*        switch(displayState) {
           case 0:
             lcd.print(" hdop: ");lcd.print(gps.hdop());
           break;
           case 1:
             lcd.print(" age:");lcd.print(age);         
-          break;         
+          break;
         }
+*/         
 
         lcd.setCursor(0,1);
         lcd.print(Year); 
