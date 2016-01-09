@@ -6,6 +6,7 @@
 #include <Wire.h>
 #include <VirtualWire.h>
 
+//LiquidCrystal_I2C lcd(0x20,4,5,6,0,1,2,3,7); 
 LiquidCrystal_I2C lcd(0x20,4,5,6,0,1,2,3,7,NEGATIVE); 
 
 /*
@@ -131,7 +132,7 @@ void loop() {
         displayState++;
         const char *msg = "updating display";
         // change to generated code - remember to prepend safety char
-        sendCode("AX4321");
+  //      sendCode("AX4321");
 
 
 
@@ -143,9 +144,8 @@ void loop() {
       lcd.clear(); lcd.print("Updating safe.."); 
       previousMillis = millis();
       //const char *msg = "Waiting for signal";
-      //vw_send((uint8_t *)msg, strlen(msg));  
       // for demo, we send out our code every second
-      sendCode("AX4321");
+//      sendCode("AX4321");
     }
   } 
 }
