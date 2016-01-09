@@ -66,7 +66,9 @@ void setup() {
 
   lcd.begin(16,2);               // initialize the lcd 
   lcd.setBacklight(HIGH); // LOW  = slukket backlight, HIGH = .. guess
-  sendCode("4321");
+  // for demo, we just send out the code
+ 
+  sendCode("AX4321");
 }
 
 void loop() {
@@ -82,7 +84,7 @@ void loop() {
     // stuff the gps-object with data
     feedgps();
     gps.f_get_position(&flat, &flon, &age);
-    gps.crack_datetime(&Year, &Month, &Day, &Hour, &Minute, &Second, NULL, &age); // this will probably fail at first..54
+    gps.crack_datetime(&Year, &Month, &Day, &Hour, &Minute, &Second, NULL, &age); // this will probably fail at first..
 
      // this might not be needed as we need to talk to the GPS 'all the time' even after first fix
     //updatedatetime(); // runs for 1000ms to make sure we have date-time correct
@@ -128,18 +130,21 @@ void loop() {
         previousMillis = millis();
         displayState++;
         const char *msg = "updating display";
-        sendCode("4321");
-//        vw_send((uint8_t *)msg, strlen(msg)); 
+        // change to generated code - remember to prepend safety char
+        sendCode("AX4321");
+
 
 
     } // eo 'display'
 
   } else { 
     if (millis()-previousMillis >= interval) {
-      lcd.clear(); lcd.print("Please Wait.."); 
+//      lcd.clear(); lcd.print("Please Wait.."); 
+      lcd.clear(); lcd.print("Updating safe.."); 
       previousMillis = millis();
-      const char *msg = "Waiting for signal";
+      //const char *msg = "Waiting for signal";
       //vw_send((uint8_t *)msg, strlen(msg));  
+      // for demo, we send out our code every second
       sendCode("AX4321");
     }
   } 
@@ -167,5 +172,4 @@ void updatedatetime() {
 // function for sending the code to the motherCache - I am in doubt if the syntax is correct, but time will tell
 void sendCode(char *m) {
 //  const char *msg = "hello";
-  vw_send((uint8_t *)m, strlen(m));  // Send 'hello' every 400ms.
-}
+  vw_send((uint8_t *)m, strlen(m));
